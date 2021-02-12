@@ -9,7 +9,6 @@ const bodyParser = require("body-parser");
 const fs = require("fs").promises
 let app = express();
 
-// app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -51,16 +50,14 @@ app.get("/search/:movieName", (req, res) => {
             res.render("pages/searchResult", { result: movieInfo[0], synopsis: synopsis, link: "http://localhost:3000"})
           }
         }
+      } else {
+        res.render("pages/searchResult", { result: "Movie could not be found.", synopsis: "", link: ""})
       }
-    })
-    .then(data => {
-      res.render("pages/searchResult", { result: "Movie could not be found.", synopsis: "", link: ""})
     })
     .catch(err => {
       console.log(err);
     })
 })
-
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000 🚀");
